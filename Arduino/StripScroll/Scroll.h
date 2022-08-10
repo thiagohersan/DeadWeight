@@ -33,7 +33,7 @@ class Scroll {
         a0 = 0;
       }
 
-      if (v0 < 2) {
+      if (v0 < random(8)) {
         bump();
       }
 
