@@ -10,6 +10,14 @@ class Screen {
     int pixPerOut = SCREEN_SIZE / numOutputs;
     std::vector<byte> pixelValues;
 
+    inline byte PAGE_VALUES_EVEN(int i) {
+      return ((i / 128) % 2) * 255;
+    }
+
+    inline byte PAGE_VALUES_NOISE(int i) {
+      return PAGE_VALUES[i];
+    }
+
   public:
     Screen(int _numOuts) {
       numOutputs = _numOuts;
@@ -26,7 +34,7 @@ class Screen {
         int sum = 0;
         for (int p = 0; p < pixPerOut; p++) {
           int pixelY = (screenTop + p) % PAGE_SIZE;
-          sum += PAGE_VALUES[pixelY] & 0xff;
+          sum += PAGE_VALUES_EVEN(pixelY) & 0xff;
         }
         pixelValues[i] = (sum / pixPerOut);
       }
