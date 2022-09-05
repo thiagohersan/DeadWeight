@@ -11,13 +11,15 @@ class Scroll {
     int height = 0;
     float v0 = 0;
     float a0 = 0;
-    float a_inc = 5;
-    float a_dec = 1;
+    float a_inc = 6.0;
+    float a_dec = 1.0;
     float v_dec = 0.93;
+    float v_min = 4.0;
+
     long long lastUpdate = 0;
 
-    void bump() {
-      a0 += 3 * a_inc;
+    void bump(int n) {
+      a0 += n * a_inc;
     }
 
   public:
@@ -27,14 +29,15 @@ class Scroll {
       if (millis() - lastUpdate < 33) return;
 
       if (a0 >= a_dec) {
-        a0 -= a_dec;
-        v0 += a_dec;
+        float ta_dec = max(a0 / 10, a_dec);
+        a0 -= ta_dec;
+        v0 += ta_dec;
       } else {
         a0 = 0;
       }
 
-      if (v0 < random(8)) {
-        bump();
+      if (v0 < random(v_min)) {
+        bump(random(2, 12));
       }
 
       v0 *= v_dec;
