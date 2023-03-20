@@ -28,20 +28,23 @@ void setup() {
 int y0 = 0;
 float v0 = 0;
 float a0 = 0;
-float a_inc = 5;
-float a_dec = 1;
-float v_dec = 0.93;
+float y_dir = -1.0;
+
+float A_DEC = 1.0;
+float A_INC = 24;
+float V_MIN = 4.0;
+float V_DAMP = 0.93;
 
 void draw() {
-  if (a0 >= a_dec) { 
-    a0 -= a_dec;
-    v0 += a_dec;
+  if (a0 >= A_DEC) {
+    a0 -= A_DEC;
+    v0 += A_DEC;
   } else {
     a0 = 0;
   }
 
-  v0 *= v_dec;
-  y0 = int(y0 + v0) % height;
+  v0 *= V_DAMP;
+  y0 = int(height + y0 + int(y_dir * v0)) % height;
 
   background(200);
   image(pg, 0, 0, width, height); 
@@ -50,7 +53,11 @@ void draw() {
 }
 
 void mouseClicked() {
-  a0 += a_inc;
+  if (v0 < 0.5) {
+    v0 = 0;
+    y_dir *= -1.0;
+  }
+  a0 += A_INC;
 }
 
 void drawFrames(int y0) {
