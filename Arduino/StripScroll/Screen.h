@@ -10,12 +10,18 @@ class Screen {
     int pixPerOut = SCREEN_SIZE / numOutputs;
     std::vector<byte> pixelValues;
 
-    inline byte PAGE_VALUES_EQUAL_BLACK_WHITE(int i) {
-      return ((i / 128) % 2) * 255;
+    // outputs a whole page of black or white
+    inline byte PAGE_VALUES_BLACK_OR_WHITE(int i) {
+      return ((i / SCREEN_SIZE) % 2) * 255;
     }
 
-    inline byte PAGE_VALUES_NOISE(int i) {
+    // outputs values based on pre-determined pattern
+    inline byte PAGE_VALUES_PATTERN(int i) {
       return PAGE_VALUES[i];
+    }
+
+    inline byte getPageValue(int i) {
+      return PAGE_VALUES_BLACK_OR_WHITE(i);
     }
 
   public:
@@ -34,7 +40,7 @@ class Screen {
         int sum = 0;
         for (int p = 0; p < pixPerOut; p++) {
           int pixelY = (screenTop + p) % PAGE_SIZE;
-          sum += PAGE_VALUES_EQUAL_BLACK_WHITE(pixelY) & 0xff;
+          sum += getPageValue(pixelY) & 0xff;
         }
         pixelValues[i] = (sum / pixPerOut);
       }
