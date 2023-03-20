@@ -7,8 +7,6 @@ Phone<14> iPhone;
 const int SONY_DATA_PIN = 4;
 Phone<16> sonyPhone;
 
-long long cnt = 0;
-
 void setup() {
   delay(10);
   FastLED.addLeds<WS2812, IPHONE_DATA_PIN, GRB>(iPhone.leds, iPhone.getNumLeds());

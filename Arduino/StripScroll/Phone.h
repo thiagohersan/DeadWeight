@@ -28,10 +28,10 @@ class Phone {
       mScreen.update(mScroll.getY());
       std::vector<byte> vs = mScreen.values();
 
-      for (int i = 0; i < ledsPerSide; i++) {
-        byte pVal = (BRIGHTNESS * int(vs[i]) / 255) & 0xff;
-        leds[ledsPerSide - i] = CRGB(pVal, pVal, pVal);
-        leds[numLeds - (ledsPerSide - i) - 1] = CRGB(pVal, pVal, pVal);
+      for (int pi = ledsPerSide - 1, vi = 0; pi >= 0; pi--, vi++) {
+        byte pVal = (BRIGHTNESS * int(vs[vi]) / 255) & 0xff;
+        leds[pi] = CRGB(pVal, pVal, pVal);
+        leds[numLeds - pi - 1] = CRGB(pVal, pVal, pVal);
       }
     }
 };
