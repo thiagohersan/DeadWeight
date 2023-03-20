@@ -23,7 +23,7 @@ class Scroll {
   public:
     Scroll() {}
 
-    void loop() {
+    void update() {
       if (millis() - lastUpdate < 33) return;
 
       if (a0 >= A_DEC) {
