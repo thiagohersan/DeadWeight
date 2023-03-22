@@ -22,8 +22,8 @@ class TouchSensor {
 
     int pin = 0;
 
-    Vals<BASE_SAMPLES> avg;
-    Vals<AVG_SAMPLES> base;
+    Vals<AVG_SAMPLES> avg;
+    Vals<BASE_SAMPLES> base;
 
     int raw = 0;
     int norm = 0;
