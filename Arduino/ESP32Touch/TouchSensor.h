@@ -1,16 +1,17 @@
 #pragma once
 
-template <int len>
-struct Vals {
-  int length = len;
-  int idx = 0;
-  int avg = 0;
-  long long sum = 0;
-  long long last = 0;
-  int vals[len];
-};
-
 class TouchSensor {
+  private:
+    template <int len>
+    struct Vals {
+      int length = len;
+      int idx = 0;
+      int avg = 0;
+      long long sum = 0;
+      long long last = 0;
+      int vals[len];
+    };
+
   private:
     static const int AVG_SAMPLES = 1;
 

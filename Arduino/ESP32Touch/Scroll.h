@@ -2,9 +2,14 @@
 
 class Scroll {
   private:
+    struct TouchEvent {
+      int sensor = -1;
+      long long timestamp = 0;
+    };
+
+  private:
     const static int NUM_SENSORS = 7;
-    const static int CLEAR_PERIOD = 512;
-    const static int DEBOUNCE_PERIOD = 32;
+    const static int CLEAR_PERIOD = 500;
 
     TouchSensor sensor[NUM_SENSORS] = {
       TouchSensor(T0),
@@ -16,65 +21,47 @@ class Scroll {
       TouchSensor(T9)
     };
 
-    int touchDown = -1;
-    long long lastTouchDown = 0;
-
-    int touchUp = -1;
-    long long lastTouchUp = 0;
-
-    int lastTouch = -1;
-    long long lastLastTouch = 0;
+    TouchEvent touchDown;
+    TouchEvent touchLast;
 
   public:
     Scroll() {}
 
     void loop() {
-      int pressedCount = 0;
       long long now = millis();
 
       for (int i = 0; i < NUM_SENSORS; i++) {
         sensor[i].loop();
 
         if (sensor[i].isPressed()) {
-          pressedCount++;
-          lastTouch = i;
-          lastLastTouch = now;
+          touchLast.sensor = i;
+          touchLast.timestamp = now;
         }
       }
 
-      if ((now - lastTouchDown) > CLEAR_PERIOD &&
-          (now - lastTouchUp) > CLEAR_PERIOD &&
-          (now - lastLastTouch) > CLEAR_PERIOD) {
-        touchDown = -1;
-        touchUp = -1;
-        lastTouch = -1;
+      bool isStale = (now - touchLast.timestamp) > CLEAR_PERIOD;
+
+      if (isStale) {
+        touchDown.sensor = -1;
+        touchLast.sensor = -1;
       }
 
-      bool debounced = (now - lastTouchDown) > DEBOUNCE_PERIOD &&
-                       (now - lastTouchUp) > DEBOUNCE_PERIOD &&
-                       (now - lastLastTouch) > DEBOUNCE_PERIOD;
-
-      if (pressedCount > 0) {
-        if (touchDown < 0) {
-          touchDown = lastTouch;
-          lastTouchDown = lastLastTouch;
-          touchUp = -1;
-          Serial.println("touchDown: " + String(touchDown));
-        }
-      } else {
-        if ((touchDown > -1) && (touchUp < 0) && (lastTouch != touchDown) && debounced) {
-          touchUp = lastTouch;
-          lastTouchUp = lastLastTouch;
-          Serial.println("touchUp: " + String(touchUp));
-        }
+      if ((touchLast.sensor > -1) && (touchDown.sensor < 0)) {
+        touchDown.sensor = touchLast.sensor;
+        touchDown.timestamp = touchLast.timestamp;
+        Serial.println("touchDown: " + String(touchDown.sensor));
       }
+    }
+
+    bool isScrolling() {
+      return (touchDown.sensor > -1) && (touchLast.sensor > -1) && (touchDown.sensor != touchLast.sensor);
     }
 
     bool scrollDown() {
-      return (touchDown > -1) && (touchUp > -1) && (touchUp < touchDown);
+      return (touchDown.sensor > -1) && (touchLast.sensor > -1) && (touchDown.sensor > touchLast.sensor);
     }
 
     bool scrollUp() {
-      return (touchDown > -1) && (touchUp > -1) && (touchUp > touchDown);
+      return (touchDown.sensor > -1) && (touchLast.sensor > -1) && (touchDown.sensor < touchLast.sensor);
     }
 };
