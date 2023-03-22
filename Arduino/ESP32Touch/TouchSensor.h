@@ -13,8 +13,11 @@ struct Vals {
 class TouchSensor {
   private:
     static const int AVG_SAMPLES = 1;
+
     static const int BASE_SAMPLES = 8;
     static const int BASE_PERIOD = 100;
+
+    static const int PRESS_THRESHOLD = 8;
 
     int pin = 0;
 
@@ -55,7 +58,7 @@ class TouchSensor {
       }
 
       norm = abs(avg.avg - base.avg);
-      pressed = norm > 6;
+      pressed = norm > PRESS_THRESHOLD;
     }
 
     const bool &isPressed() const {
