@@ -18,7 +18,7 @@ class TouchSensor {
     static const int BASE_SAMPLES = 8;
     static const int BASE_PERIOD = 100;
 
-    static const int PRESS_THRESHOLD = 8;
+    static const int PRESS_THRESHOLD = 4;
 
     int pin = 0;
 

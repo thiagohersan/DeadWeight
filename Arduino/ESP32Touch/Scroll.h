@@ -8,17 +8,15 @@ class Scroll {
     };
 
   private:
-    const static int NUM_SENSORS = 7;
+    const static int NUM_SENSORS = 5;
     const static int CLEAR_PERIOD = 500;
 
     TouchSensor sensor[NUM_SENSORS] = {
-      TouchSensor(T0),
       TouchSensor(T4),
       TouchSensor(T5),
       TouchSensor(T6),
       TouchSensor(T7),
-      TouchSensor(T8),
-      TouchSensor(T9)
+      TouchSensor(T8)
     };
 
     TouchEvent touchDown;
