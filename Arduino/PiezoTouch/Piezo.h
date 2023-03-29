@@ -16,6 +16,9 @@ class Piezo {
     static const int BASE_SAMPLES = 64;
     static const int BASE_PERIOD = 100;
 
+    static const int CAP_THRESHOLD = 16;
+    static const int CAP_DAMP = 4;
+
     int pin = 0;
 
     Vals<AVG_SAMPLES> avg;
@@ -58,7 +61,6 @@ class Piezo {
 
     void loop() {
       raw = analogRead(pin);
-      delay(1);
 
       updateVals(avg, raw);
 
@@ -69,10 +71,10 @@ class Piezo {
 
       norm = abs(avg.avg - base.avg);
 
-      if (norm > 8) {
+      if (norm > CAP_THRESHOLD) {
         cap = min(1023, cap + norm);
       } else {
-        cap = max(0, cap - 16);
+        cap = max(0, cap - CAP_DAMP);
       }
     }
 
