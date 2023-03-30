@@ -25,6 +25,12 @@ class Scroll {
   public:
     Scroll() {}
 
+    void setup() {
+      for (int i = 0; i < NUM_SENSORS; i++) {
+        sensor[i].setup();
+      }
+    }
+
     void loop() {
       long long now = millis();
 
@@ -32,6 +38,7 @@ class Scroll {
         sensor[i].loop();
 
         if (sensor[i].isPressed()) {
+          //          Serial.println(String("pressed ") + String(i));
           touchLast.sensor = i;
           touchLast.timestamp = now;
         }
@@ -47,7 +54,7 @@ class Scroll {
       if ((touchLast.sensor > -1) && (touchDown.sensor < 0)) {
         touchDown.sensor = touchLast.sensor;
         touchDown.timestamp = touchLast.timestamp;
-        Serial.println("touchDown: " + String(touchDown.sensor));
+        //        Serial.println("touchDown: " + String(touchDown.sensor));
       }
     }
 
@@ -61,5 +68,13 @@ class Scroll {
 
     bool scrollUp() {
       return (touchDown.sensor > -1) && (touchLast.sensor > -1) && (touchDown.sensor < touchLast.sensor);
+    }
+
+    int getScroll() {
+      if ((touchDown.sensor > -1) && (touchLast.sensor > -1)) {
+        if (touchDown.sensor < touchLast.sensor) return 1;
+        else if (touchDown.sensor > touchLast.sensor) return -1;
+      }
+      return 0;
     }
 };

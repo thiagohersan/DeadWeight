@@ -15,10 +15,10 @@ class TouchSensor {
   private:
     static const int AVG_SAMPLES = 1;
 
-    static const int BASE_SAMPLES = 8;
-    static const int BASE_PERIOD = 100;
+    static const int BASE_SAMPLES = 32;
+    static const int BASE_PERIOD = 1000;
 
-    static const int PRESS_THRESHOLD = 4;
+    static const int PRESS_THRESHOLD = 8;
 
     int pin = 0;
 
@@ -42,19 +42,30 @@ class TouchSensor {
     TouchSensor(int _pin) : pin(_pin) {
       for (int i = 0; i < base.length; i++) {
         updateVals(base, 0);
-      }
-      for (int i = 0; i < avg.length; i++) {
         updateVals(avg, 0);
       }
     }
 
+    void setup() {
+      for (int i = 0; i < base.length; i++) {
+        raw = touchRead(pin);
+        updateVals(base, raw);
+        updateVals(avg, raw);
+      }
+    }
+
     void loop() {
+      delayMicroseconds(500);
       raw = touchRead(pin);
 
       updateVals(avg, raw);
 
       if ((millis() - base.last) > BASE_PERIOD) {
-        updateVals(base, raw);
+        for (int i = 0; i < base.length; i++) {
+          delayMicroseconds(14);
+          raw = touchRead(pin);
+          updateVals(base, raw);
+        }
         base.last = millis();
       }
 
