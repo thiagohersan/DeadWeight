@@ -16,7 +16,7 @@ class Averager {
     static const int AVG_SAMPLES = 1;
 
     static const int BASE_SAMPLES = 32;
-    static const int BASE_PERIOD = 1000;
+    static const int BASE_PERIOD = 125;
 
     static const int PRESS_THRESHOLD = 4;
 
@@ -50,16 +50,13 @@ class Averager {
     }
 
     void loop() {
-      delayMicroseconds(500);
+      delayMicroseconds(100);
       raw = touchRead(pin);
 
       updateVals(avg, raw);
 
       if ((millis() - base.last) > BASE_PERIOD) {
-        for (int i = 0; i < base.length; i++) {
-          raw = touchRead(pin);
-          updateVals(base, raw);
-        }
+        updateVals(base, raw);
         base.last = millis();
       }
 
@@ -84,8 +81,8 @@ class Averager {
     }
 
     const int &getValue() const {
+      //      return getBase();
       //      return getAverage();
       return getNorm();
-      //      return getBase();
     }
 };
