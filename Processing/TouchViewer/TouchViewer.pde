@@ -11,6 +11,10 @@ color[] ccolor = {
   color(130, 230, 255)
 };
 
+boolean SPLIT_CHANNELS = false;
+float maxY = 0;
+float offsetYFactor = 0;
+
 void setup() {
   size(1280, 600);
   frameRate(30);
@@ -22,10 +26,18 @@ void setup() {
   }
 
   smooth();
+
+  if (SPLIT_CHANNELS) {
+    maxY = height / val.length;
+    offsetYFactor = height / val.length;
+  } else {
+    maxY = height;
+    offsetYFactor = 0;
+  }
 }
 
-int getY(int val) {
-  return (int)(val / 1023.0f * height) - 1;
+float getY(float val, float maxY) {
+  return val / 1023.0f * maxY;
 }
 
 void draw() {
@@ -47,10 +59,10 @@ void draw() {
   }
 
   for (int c = 0; c < val.length; c++) {
-    for (int i = 0; i < width - 1; i++) {
-      values[c][i] = values[c][i + 1];
+    for (int i = width - 1; i > 0; i--) {
+      values[c][i] = values[c][i - 1];
     }
-    values[c][width - 1] = val[c];
+    values[c][0] = val[c];
   }
 
 
@@ -58,9 +70,12 @@ void draw() {
 
   for (int c = 0; c < val.length; c++) {
     stroke(ccolor[c]);
-    for (int x = 1; x < width; x++) {
-      line(width - x, height - 1 - getY(values[c][x - 1]), 
-        width - 1 - x, height - 1 - getY(values[c][x]));
+    float offsetY = offsetYFactor * c;
+    for (int x = 0; x < width - 1; x++) {
+      line(
+      x + 0, height - getY(values[c][x + 0], maxY) - offsetY - 1,
+      x + 1, height - getY(values[c][x + 1], maxY) - offsetY - 1
+      );
     }
   }
 }
