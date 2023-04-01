@@ -12,11 +12,22 @@ Averager sensor[NUM_SENSORS] = {
 
 int sensorValue[NUM_SENSORS];
 
+const int PWM1_GPIO = 26;
+const int PWM1_CH = 0;
+const int PWM1_RES = 10;
+const int PWM1_FREQ = 1;
+const int PWM1_DUTY_CYCLE = 127;
+
+
 void setup() {
   Serial.begin(115200);
   for (int i = 0; i < NUM_SENSORS; i++) {
     sensor[i].setup();
   }
+
+  ledcAttachPin(PWM1_GPIO, PWM1_CH);
+  ledcSetup(PWM1_CH, PWM1_FREQ, PWM1_RES);
+  ledcWrite(PWM1_CH, PWM1_DUTY_CYCLE);
 }
 
 void loop() {
