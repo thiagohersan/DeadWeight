@@ -1,8 +1,12 @@
 import processing.serial.*;
 
 Serial port;
-int[] val = new int[5];
-int[][] values = new int[5][];
+
+int NUM_CHANNELS = 5;
+
+int[] val = new int[NUM_CHANNELS];
+int[][] values = new int[NUM_CHANNELS][];
+
 color[] ccolor = {
   color(255, 0, 100),
   color(255, 165, 0),
@@ -11,7 +15,7 @@ color[] ccolor = {
   color(130, 230, 255)
 };
 
-boolean SPLIT_CHANNELS = false;
+boolean SPLIT_CHANNELS = true;
 float maxY = 0;
 float offsetYFactor = 0;
 
@@ -53,7 +57,9 @@ void draw() {
 
         int v0 = ((port.read() & 0xFF) << 8) & 0xFF00;
         int v1 = ((port.read() & 0xFF) << 0) & 0x00FF;
-        val[idx] = v0 | v1;
+        if (idx < val.length) {
+          val[idx] = v0 | v1;
+        }
       }
     }
   }
@@ -69,13 +75,13 @@ void draw() {
   background(0);
 
   for (int c = 0; c < val.length; c++) {
-    stroke(ccolor[c]);
+    stroke(ccolor[c % ccolor.length]);
     float offsetY = offsetYFactor * c;
     for (int x = 0; x < width - 1; x++) {
       line(
-      x + 0, height - getY(values[c][x + 0], maxY) - offsetY - 1,
-      x + 1, height - getY(values[c][x + 1], maxY) - offsetY - 1
-      );
+        x + 0, height - getY(values[c][x + 0], maxY) - offsetY - 1,
+        x + 1, height - getY(values[c][x + 1], maxY) - offsetY - 1
+        );
     }
   }
 }
