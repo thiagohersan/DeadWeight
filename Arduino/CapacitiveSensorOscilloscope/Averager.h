@@ -33,6 +33,7 @@ class Averager {
     long long raw = 0;
     int norm = 0;
     bool pressed = false;
+    int byteLimited = 0;
 
     CapacitiveSensor mSensor;
 
@@ -63,6 +64,7 @@ class Averager {
       raw = mSensor.capacitiveSensor(CAP_SAMPLES);
 
       updateVals(avg, raw);
+      byteLimited = min(255, avg.avg);
 
       if ((millis() - base.last) > BASE_PERIOD) {
         updateVals(base, raw);
@@ -89,9 +91,14 @@ class Averager {
       return base.avg;
     }
 
+    const int &getAverageByteLimited() const {
+      return byteLimited;
+    }
+
     const int &getValue() const {
       //      return getBase();
-      return getAverage();
+      // return getAverage();
       //      return getNorm();
+      return getAverageByteLimited();
     }
 };
