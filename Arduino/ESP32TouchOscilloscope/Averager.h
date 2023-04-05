@@ -1,17 +1,16 @@
 #pragma once
 
-class Averager {
-  private:
-    template <int len>
-    struct Vals {
-      int length = len;
-      int idx = 0;
-      int avg = 0;
-      long long sum = 0;
-      long long last = 0;
-      int vals[len];
-    };
+template <int LEN>
+struct Vals {
+  int length = LEN;
+  int idx = 0;
+  int avg = 0;
+  long long sum = 0;
+  long long last = 0;
+  int vals[LEN];
+};
 
+class Averager {
   private:
     static const int AVG_SAMPLES = 1;
 
@@ -29,8 +28,8 @@ class Averager {
     int norm = 0;
     bool pressed = false;
 
-    template <int len>
-    void updateVals(Vals<len> &vs, int new_val) {
+    template <int LEN>
+    void updateVals(Vals<LEN> &vs, int new_val) {
       vs.sum -= vs.vals[vs.idx];
       vs.vals[vs.idx] = new_val;
       vs.sum += vs.vals[vs.idx];
