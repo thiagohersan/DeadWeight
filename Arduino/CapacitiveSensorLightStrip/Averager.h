@@ -46,7 +46,6 @@ class Averager {
 
     void setup() {
       for (int i = 0; i < 2*avg.length; i++) {
-        // raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
         raw = mSensor.capacitiveSensor(CAP_SAMPLES);
         updateVals(avg, raw);
       }
@@ -54,7 +53,6 @@ class Averager {
 
     void loop() {
       delayMicroseconds(100);
-      // raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
       raw = mSensor.capacitiveSensor(CAP_SAMPLES);
 
       updateVals(avg, raw);
