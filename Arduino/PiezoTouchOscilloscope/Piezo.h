@@ -8,7 +8,7 @@ struct Vals {
   int max = 0;
   long long sum = 0;
   long long last = 0;
-  int vals[LEN];
+  int vals[LEN] = {0};
 };
 
 class Piezo {

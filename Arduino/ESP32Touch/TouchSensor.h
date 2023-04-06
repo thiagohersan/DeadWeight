@@ -9,7 +9,7 @@ class TouchSensor {
       int avg = 0;
       long long sum = 0;
       long long last = 0;
-      int vals[len];
+      int vals[len] = {0};
     };
 
   private:
