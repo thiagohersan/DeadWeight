@@ -7,6 +7,8 @@ struct Vals {
   int length = LEN;
   int idx = 0;
   int avg = 0;
+  int min = 0;
+  int max = 1;
   long long sum = 0;
   long long last = 0;
   int vals[LEN] = {0};
@@ -64,7 +66,7 @@ class Averager {
       raw = mSensor.capacitiveSensor(CAP_SAMPLES);
 
       updateVals(avg, raw);
-      byteLimited = min(255, avg.avg);
+      byteLimited = map(avg.avg, avg.min, avg.max, 0, 255);
 
       if ((millis() - base.last) > BASE_PERIOD) {
         updateVals(base, raw);
@@ -97,8 +99,8 @@ class Averager {
 
     const int &getValue() const {
       //      return getBase();
-      // return getAverage();
+      return getAverage();
       //      return getNorm();
-      return getAverageByteLimited();
+      // return getAverageByteLimited();
     }
 };
