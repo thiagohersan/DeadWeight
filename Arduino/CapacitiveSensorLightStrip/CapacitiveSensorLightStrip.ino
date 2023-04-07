@@ -5,7 +5,7 @@ const int SENSORS_PER_PHONE = 2;
 
 const int HTC_G2_DATA_PIN = 2;
 const int HTC_G2_LEDS_PER_SIDE = 12;
-Phone<HTC_G2_LEDS_PER_SIDE, SENSORS_PER_PHONE> htcG2({10, 11});
+Phone<HTC_G2_LEDS_PER_SIDE, SENSORS_PER_PHONE> htcG2({11, 10});
 
 const int IPHONE_G_DATA_PIN = 4;
 const int IPHONE_G_LEDS_PER_SIDE = 16;
