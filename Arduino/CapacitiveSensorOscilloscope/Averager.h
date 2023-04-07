@@ -46,6 +46,8 @@ class Averager {
       vs.sum += vs.vals[vs.idx];
       vs.idx = (vs.idx + 1) % vs.length;
       vs.avg = vs.sum / vs.length;
+      if (vs.avg < vs.min) vs.min = vs.avg;
+      if (vs.avg > vs.max) vs.max = vs.avg;
     }
 
   public:
@@ -98,9 +100,9 @@ class Averager {
     }
 
     const int &getValue() const {
-      //      return getBase();
+      // return getBase();
       return getAverage();
-      //      return getNorm();
+      // return getNorm();
       // return getAverageByteLimited();
     }
 };
