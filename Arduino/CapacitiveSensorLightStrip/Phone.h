@@ -7,8 +7,8 @@ template<int LEDS_PER_SIDE, int NUM_SENSORS>
 class Phone {
   private:
     const int BRIGHTNESS_MAX = 32;
-    const int BRIGHTNESS_DELTA = 4;
-    const int BRIGHTNESS_DELTA_THRESHOLD = 2 * BRIGHTNESS_DELTA;
+    const int BRIGHTNESS_DELTA = 8;
+    const int BRIGHTNESS_DELTA_THRESHOLD = BRIGHTNESS_DELTA;
     const int numLeds = 2 * LEDS_PER_SIDE;
 
     int maxSensorValue = 0;
