@@ -55,7 +55,7 @@ class Averager {
 
     void setup() {
       for (int i = 0; i < base.length; i++) {
-        //        raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
+        // raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
         raw = mSensor.capacitiveSensor(CAP_SAMPLES);
         updateVals(base, raw);
         updateVals(avg, raw);
@@ -64,7 +64,7 @@ class Averager {
 
     void loop() {
       delayMicroseconds(100);
-      //      raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
+      // raw = mSensor.capacitiveSensorRaw(CAP_SAMPLES);
       raw = mSensor.capacitiveSensor(CAP_SAMPLES);
 
       updateVals(avg, raw);
@@ -100,7 +100,6 @@ class Averager {
     }
 
     const int &getValue() const {
-      // return getBase();
       return getAverage();
       // return getNorm();
       // return getAverageByteLimited();

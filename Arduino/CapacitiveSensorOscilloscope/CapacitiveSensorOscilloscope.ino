@@ -6,7 +6,8 @@ Averager sensor[NUM_SENSORS] = {
   Averager(11),
   Averager(10),
   Averager(9),
-  Averager(8)
+  Averager(8),
+  // Averager(7)
 };
 
 int sensorValue[NUM_SENSORS];
