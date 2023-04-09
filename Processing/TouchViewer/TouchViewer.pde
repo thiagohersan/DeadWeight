@@ -44,6 +44,12 @@ float getY(float val, float maxY) {
   return val / 1023.0f * maxY;
 }
 
+void diffChannels(int resIdx, int c0Idx, int c1Idx) {
+  for (int i = width - 1; i >= 0; i--) {
+    values[resIdx][i] = values[c0Idx][i] - values[c1Idx][i];
+  }
+}
+
 void draw() {
   while (port.available () >= 4) {
     int h0 = port.read() & 0xFF;
@@ -71,6 +77,8 @@ void draw() {
     values[c][0] = val[c];
   }
 
+  //// Diff 2 channels and output on a 3rd channel
+  // diffChannels(val.length - 1, 0, 1);
 
   background(0);
 
