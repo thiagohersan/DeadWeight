@@ -4,10 +4,10 @@
 const int HTC_G2_DATA_PIN = 2;
 Phone<14> htcG2;
 
-const int IPHONE_G_DATA_PIN = 4;
+const int IPHONE_G_DATA_PIN = 3;
 Phone<16> iPhoneG;
 
-const int HTC_OLD_DATA_PIN = 6;
+const int HTC_OLD_DATA_PIN = 4;
 Phone<12> htcOld;
 
 void setup() {
