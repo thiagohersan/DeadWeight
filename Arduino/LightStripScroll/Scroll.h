@@ -45,10 +45,6 @@ class Scroll {
 
       // slowing down
       if (v0 < random(V_MIN)) {
-        // very slowed down
-        if (a0 < A_DEC) {
-          v0 = 0;
-        }
         // bump a
         a0 += random(A_INC_MIN, A_INC_MAX);
       }

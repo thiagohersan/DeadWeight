@@ -12,7 +12,7 @@ class Screen {
 
     // outputs a whole page of black or white
     inline byte PAGE_VALUES_BLACK_OR_WHITE(int i) {
-      return ((i / int(SCREEN_SIZE / 1.8)) % 2) * 255;
+      return ((i / int(SCREEN_SIZE / 1.8)) % 2) * 170 + 85;
     }
 
     // outputs values based on pre-determined pattern

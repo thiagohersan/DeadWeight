@@ -8,7 +8,7 @@
 template<int ledsPerSide>
 class Phone {
   private:
-    const int BRIGHTNESS = 8;
+    const int BRIGHTNESS = 16;
     const int numLeds = 2 * ledsPerSide;
 
     Screen mScreen;
